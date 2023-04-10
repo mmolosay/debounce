@@ -36,6 +36,10 @@ internal class DebouncedAction internal constructor(
     private val action: () -> Unit,
 ) : () -> Unit {
 
+    init {
+        require(timeout.isPositive()) { "Can\'t create \'DebouncedAction\' with non-positive \'timeout\'" }
+    }
+
     private var lastInvocationTime: Long? = null
 
     override fun invoke() {
