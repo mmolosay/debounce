@@ -1,8 +1,13 @@
-plugins {
-    val agpV = "7.3.1"
-    val kotlinV = "1.8.10"
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-    id("com.android.application") version agpV apply false
-    id("com.android.library") version agpV apply false
-    id("org.jetbrains.kotlin.android") version kotlinV apply false
+plugins {
+    kotlin("jvm") version "1.8.20"
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
