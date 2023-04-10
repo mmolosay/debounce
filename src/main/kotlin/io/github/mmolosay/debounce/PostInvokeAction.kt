@@ -18,24 +18,41 @@ import kotlin.time.Duration
  * limitations under the License.
  */
 
+/**
+ * Describes an action to be executed after (post-) an invocation of some other, main action.
+ */
 internal sealed interface PostInvokeAction {
 
+    /**
+     * Type of [PostInvokeAction], that have a single callback method for both cases of main action
+     * invocation (executed and debounced).
+     */
     interface General : PostInvokeAction {
         operator fun invoke(wasExecuted: Boolean)
     }
 
+    /**
+     * Type of [PostInvokeAction], that have individual callback methods for cases of main action
+     * invocation (executed and debounced).
+     */
     interface Specific : PostInvokeAction {
         fun onExecuted()
         fun onDebounced(timeoutTimeLeft: Duration)
     }
 }
 
+/**
+ * Invokes receiver [PostInvokeAction]'s callback, that stands for a result of successful invocation of main action.
+ */
 internal fun PostInvokeAction.onExecuted() =
     when (this) {
         is PostInvokeAction.General -> invoke(wasExecuted = true)
         is PostInvokeAction.Specific -> onExecuted()
     }
 
+/**
+ * Invokes receiver [PostInvokeAction]'s callback, that stands for a result of unsuccessful invocation of main action.
+ */
 internal fun PostInvokeAction.onDebounced(timeoutTimeLeft: Duration) =
     when (this) {
         is PostInvokeAction.General -> invoke(wasExecuted = false)

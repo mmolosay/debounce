@@ -20,6 +20,16 @@ import kotlin.time.Duration.Companion.nanoseconds
  * limitations under the License.
  */
 
+/**
+ * Wrapper for some [action], that stands as a proxy to its invocation and debounces it.
+ *
+ * Original [action]'s invocation will be [debounced](https://en.wiktionary.org/wiki/debounce), if previous
+ * successful invocation happened within the specified [timeout] from now.
+ * It means, that attempts to invoke [action] before [timeout] had exceeded will be discarded.
+ *
+ * Additionally, there's a functionality of specifying [postInvoke] callback, that will be called after an attempt to
+ * invoke [action].
+ */
 internal class DebouncedAction internal constructor(
     private val timeout: Duration,
     private val action: () -> Unit,

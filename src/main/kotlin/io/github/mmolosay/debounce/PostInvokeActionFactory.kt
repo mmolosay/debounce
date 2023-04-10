@@ -18,6 +18,9 @@ import kotlin.time.Duration
  * limitations under the License.
  */
 
+/**
+ * Factory of [PostInvokeAction].
+ */
 internal object PostInvokeActionFactory {
 
     fun make(
