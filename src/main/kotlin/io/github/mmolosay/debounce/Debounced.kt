@@ -44,9 +44,9 @@ fun debounced(
 /**
  * Variant of [debounced] function. See basic definition for details.
  *
- * Specified [onInvoke] block will be called after every invokation of returned lambda.
+ * Specified [onInvoke] block will be called after every invocation of returned lambda.
  * It will be invoked with `true` as a parameter, if wrapped [action] was actually executed in
- * this invokation, or with `false` otherwise.
+ * this invocation, or with `false` otherwise.
  */
 fun debounced(
     timeout: Duration = 400.milliseconds,
@@ -64,7 +64,7 @@ fun debounced(
  *
  * This overload separates post invoke action in two [onExecuted] and [onDebounced] actions.
  *
- * [onExecuted] is called, if wrapped [action] was actually executed in this invokation.
+ * [onExecuted] is called, if wrapped [action] was actually executed in this invocation.
  * [onDebounced] is called, if wrapped [action] was debounced and was not executed. Timeout time left
  * will be used as its parameter.
  *

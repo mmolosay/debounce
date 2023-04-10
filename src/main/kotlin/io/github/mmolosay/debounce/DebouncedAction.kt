@@ -36,11 +36,11 @@ internal class DebouncedAction internal constructor(
     private val postInvoke: PostInvokeAction? = null,
 ) : () -> Unit {
 
-    private var lastInvokationTime: Long? = null
+    private var lastInvocationTime: Long? = null
 
     override fun invoke() {
         val elapsed = elapsed()
-        if (elapsed == null) { // very first invokation
+        if (elapsed == null) { // very first invocation
             executeAction()
         } else {
             val timeoutTimeLeft = timeout - elapsed
@@ -54,12 +54,12 @@ internal class DebouncedAction internal constructor(
 
     private fun executeAction() {
         action()
-        lastInvokationTime = now()
+        lastInvocationTime = now()
         postInvoke?.onExecuted()
     }
 
     private fun elapsed(): Duration? =
-        lastInvokationTime?.let {
+        lastInvocationTime?.let {
             (now() - it).nanoseconds
         }
 
