@@ -78,7 +78,7 @@ private fun LazyListScope.Button(
             timeout = 3.seconds,
             postInvoke = { afterClick(it) }, // TODO: try move after actual action
             action = { onButtonClick(context) }
-        ).let { remember { it } }
+        )
         Button(
             onClick = onClick,
         ) {
