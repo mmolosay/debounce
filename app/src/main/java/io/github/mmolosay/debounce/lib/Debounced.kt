@@ -65,7 +65,9 @@ private fun makePostInvokeAction(
     onExecuted: (() -> Unit)? = null,
     onDebounced: (() -> Unit)? = null,
 ): (Boolean) -> Unit {
-    require(onExecuted != null || onDebounced != null) { "You must specify onExecuted or onDebounced action" }
+    require(onExecuted != null || onDebounced != null) {
+        "You must specify \'onExecuted\' or \'onDebounced\' action"
+    }
     return { wasInvoked ->
         if (wasInvoked) onExecuted?.invoke()
         else onDebounced?.invoke()
