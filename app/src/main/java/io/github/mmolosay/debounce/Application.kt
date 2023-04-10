@@ -95,6 +95,7 @@ private fun LazyListScope.Button(
         }
         Button(
             onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(text = "Click me")
         }
