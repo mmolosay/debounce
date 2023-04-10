@@ -9,19 +9,19 @@ internal class DebouncedAction internal constructor(
     private val postInvoke: ((Boolean) -> Unit)? = null,
 ) : () -> Unit {
 
-    private var lastInvokedTime: Long? = null
+    private var lastInvokationTime: Long? = null
 
     override fun invoke() {
         val shouldExecute = hadTimeoutPassed() // and wasExecuted
         if (shouldExecute) {
             action()
-            lastInvokedTime = now()
+            lastInvokationTime = now()
         }
         postInvoke?.invoke(shouldExecute)
     }
 
     private fun hadTimeoutPassed(): Boolean =
-        lastInvokedTime?.let {
+        lastInvokationTime?.let {
             val elapsed = now() - it
             elapsed.milliseconds >= timeout
         } ?: true
