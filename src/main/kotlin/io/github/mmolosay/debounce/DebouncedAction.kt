@@ -1,5 +1,8 @@
 package io.github.mmolosay.debounce
 
+import java.time.Clock
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.nanoseconds
@@ -32,6 +35,7 @@ import kotlin.time.Duration.Companion.nanoseconds
  */
 internal class DebouncedAction internal constructor(
     private val timeout: Duration,
+    private val clock: Clock = Clock.systemUTC(),
     private val postInvoke: PostInvokeAction? = null,
     private val action: () -> Unit,
 ) : () -> Unit {
@@ -68,5 +72,8 @@ internal class DebouncedAction internal constructor(
         }
 
     private fun now(): Long =
-        System.nanoTime()
+        ChronoUnit.NANOS.between(
+            Instant.EPOCH,
+            clock.instant(),
+        )
 }
