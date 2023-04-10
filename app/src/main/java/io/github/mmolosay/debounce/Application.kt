@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -68,41 +67,30 @@ private fun MainContent(
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Button { wasOnClickExecuted ->
+        ButtonItem { wasOnClickExecuted ->
             events += ClickEvent(
                 time = dateFormatter.format(Date()),
                 wasExecuted = wasOnClickExecuted,
                 background = inferClickEventBackground(wasOnClickExecuted),
             )
         }
-        ClickEvents(
+        ClickEventItems(
             items = events.reversed(),
         )
     }
 }
 
-private fun LazyListScope.Button(
+// region Lazy list items
+
+private fun LazyListScope.ButtonItem(
     afterClick: (Boolean) -> Unit,
 ) {
     item(key = "button") {
-        val context = LocalContext.current
-        val onClick = remember {
-            debounced(
-                timeout = 3.seconds,
-                onInvoke = { wasExecuted -> afterClick(wasExecuted) },
-                action = { onButtonClick(context) },
-            )
-        }
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = "Click me")
-        }
+        Button(afterClick)
     }
 }
 
-private fun LazyListScope.ClickEvents(
+private fun LazyListScope.ClickEventItems(
     items: List<ClickEvent>,
 ) {
     items(
@@ -110,6 +98,30 @@ private fun LazyListScope.ClickEvents(
         key = { it.time },
     ) {
         ClickEventItem(item = it)
+    }
+}
+
+// endregion
+
+// region Composables
+
+@Composable
+private fun Button(
+    afterClick: (Boolean) -> Unit,
+) {
+    val context = LocalContext.current
+    val onClick = remember {
+        debounced(
+            timeout = 3.seconds,
+            onInvoke = { wasExecuted -> afterClick(wasExecuted) },
+            action = { showButtonClickedToast(context) },
+        )
+    }
+    Button(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(text = "Click me")
     }
 }
 
@@ -126,12 +138,11 @@ private fun ClickEventItem(item: ClickEvent) {
     }
 }
 
-private fun onButtonClick(
-    context: Context,
-) =
+// endregion
+
+private fun showButtonClickedToast(context: Context) =
     Toast.makeText(context, "Button clicked", Toast.LENGTH_SHORT).show()
 
-@Stable
 private data class ClickEvent(
     val time: String,
     val wasExecuted: Boolean,
