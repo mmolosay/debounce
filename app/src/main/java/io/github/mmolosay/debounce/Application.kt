@@ -77,7 +77,7 @@ private fun LazyListScope.Button(
         val onClick = debounced(
             timeout = 3.seconds,
             postInvoke = { afterClick(it) }, // TODO: try move after actual action
-            action = { onButtonClick(context) }
+            action = { onButtonClick(context) },
         )
         Button(
             onClick = onClick,
