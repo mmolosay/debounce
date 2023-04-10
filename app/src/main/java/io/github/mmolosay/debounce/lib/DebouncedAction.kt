@@ -1,31 +1,42 @@
 package io.github.mmolosay.debounce.lib
 
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.ZERO
+import kotlin.time.Duration.Companion.nanoseconds
 
 internal class DebouncedAction internal constructor(
     private val timeout: Duration,
     private val action: () -> Unit,
-    private val postInvoke: ((Boolean) -> Unit)? = null,
+    private val postInvoke: PostInvokeAction? = null,
 ) : () -> Unit {
 
     private var lastInvokationTime: Long? = null
 
     override fun invoke() {
-        val shouldExecute = hadTimeoutPassed() // and wasExecuted
-        if (shouldExecute) {
-            action()
-            lastInvokationTime = now()
+        val elapsed = elapsed()
+        if (elapsed == null) { // very first invokation
+            executeAction()
+        } else {
+            val timeoutTimeLeft = timeout - elapsed
+            if (timeoutTimeLeft <= ZERO) { // elapsed >= timeout
+                executeAction()
+            } else {
+                postInvoke?.onDebounced(timeoutTimeLeft)
+            }
         }
-        postInvoke?.invoke(shouldExecute)
     }
 
-    private fun hadTimeoutPassed(): Boolean =
+    private fun executeAction() {
+        action()
+        lastInvokationTime = now()
+        postInvoke?.onExecuted()
+    }
+
+    private fun elapsed(): Duration? =
         lastInvokationTime?.let {
-            val elapsed = now() - it
-            elapsed.milliseconds >= timeout
-        } ?: true
+            (now() - it).nanoseconds
+        }
 
     private fun now(): Long =
-        System.currentTimeMillis()
+        System.nanoTime()
 }
