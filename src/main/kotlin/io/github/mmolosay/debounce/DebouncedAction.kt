@@ -32,8 +32,8 @@ import kotlin.time.Duration.Companion.nanoseconds
  */
 internal class DebouncedAction internal constructor(
     private val timeout: Duration,
-    private val action: () -> Unit,
     private val postInvoke: PostInvokeAction? = null,
+    private val action: () -> Unit,
 ) : () -> Unit {
 
     private var lastInvocationTime: Long? = null

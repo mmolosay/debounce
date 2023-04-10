@@ -37,8 +37,8 @@ fun debounced(
 ): () -> Unit =
     DebouncedAction(
         timeout = timeout,
-        action = action,
         postInvoke = null,
+        action = action,
     )
 
 /**
@@ -55,8 +55,8 @@ fun debounced(
 ): () -> Unit =
     DebouncedAction(
         timeout = timeout,
-        action = action,
         postInvoke = PostInvokeActionFactory.make(onInvoke),
+        action = action,
     )
 
 /**
@@ -79,6 +79,6 @@ fun debounced(
 ): () -> Unit =
     DebouncedAction(
         timeout = timeout,
-        action = action,
         postInvoke = PostInvokeActionFactory.make(onExecuted, onDebounced),
+        action = action,
     )
