@@ -33,7 +33,7 @@ import kotlin.time.Duration.Companion.nanoseconds
  * Additionally, there's a functionality of specifying [postInvoke] callback, that will be called after an attempt to
  * invoke [action].
  */
-internal class DebouncedAction internal constructor(
+internal class DebouncedAction(
     private val timeout: Duration,
     private val clock: Clock = Clock.systemUTC(),
     private val postInvoke: PostInvokeAction? = null,
