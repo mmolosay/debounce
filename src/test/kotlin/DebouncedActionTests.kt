@@ -6,6 +6,7 @@ import org.junit.jupiter.api.fail
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -67,7 +68,7 @@ class DebouncedActionTests {
     fun `when timeout has passed exactly, invocation executes action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, { clock.now() }) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
@@ -81,7 +82,7 @@ class DebouncedActionTests {
     fun `when timeout has passed greater, invocation executes action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, { clock.now() }) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
@@ -95,7 +96,7 @@ class DebouncedActionTests {
     fun `when timeout has not passed, invocation debounces action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, { clock.now() }) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
@@ -130,7 +131,7 @@ class DebouncedActionTests {
         val timeout = 20.milliseconds
         val debounced = DebouncedAction(
             timeout = timeout,
-            clock = clock,
+            now = { clock.now() },
             postInvoke = PostInvokeActionFactory.make { wasExecuted -> postInvokeParam = wasExecuted },
             action = {},
         )
@@ -169,7 +170,7 @@ class DebouncedActionTests {
         val clock = MutableClock()
         val debounced = DebouncedAction(
             timeout = Timeout,
-            clock = clock,
+            now = { clock.now() },
             postInvoke = PostInvokeActionFactory.make(
                 onExecuted = { /* will be called in first invocation */ },
                 onDebounced = { wasOnDebouncedCalled = true },
@@ -190,7 +191,7 @@ class DebouncedActionTests {
         val clock = MutableClock()
         val debounced = DebouncedAction(
             timeout = Timeout,
-            clock = clock,
+            now = { clock.now() },
             postInvoke = PostInvokeActionFactory.make(
                 onExecuted = { /* will be called in first invocation */ },
                 onDebounced = { left -> actualTimeLeft = left },
@@ -228,6 +229,12 @@ class DebouncedActionTests {
     private infix fun MutableClock.advanceBy(amount: Duration) {
         advancement += amount
     }
+
+    private fun Clock.now(): Long =
+        ChronoUnit.NANOS.between(
+            Instant.EPOCH,
+            this.instant(),
+        )
 
     // endregion
 
