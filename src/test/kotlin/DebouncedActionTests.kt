@@ -2,6 +2,7 @@ import io.github.mmolosay.debounce.DebouncedAction
 import io.github.mmolosay.debounce.PostInvokeActionFactory
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
@@ -30,7 +31,7 @@ class DebouncedActionTests {
 
     @Test
     fun `creating debounced action with negative timeout throws exception`() {
-        val timeout = (-20).milliseconds
+        val timeout = -Timeout
         try {
             DebouncedAction(timeout) {}
         } catch (_: IllegalArgumentException) {
@@ -55,7 +56,7 @@ class DebouncedActionTests {
     @Test
     fun `when debounced just created, invocation executes action`() {
         var wasActionExecuted = false
-        val debounced = DebouncedAction(20.milliseconds) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout) { wasActionExecuted = true }
 
         debounced()
 
@@ -66,12 +67,11 @@ class DebouncedActionTests {
     fun `when timeout has passed exactly, invocation executes action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val timeout = 20.milliseconds
-        val debounced = DebouncedAction(timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
-        clock advanceBy timeout
+        clock advanceBy ExactlyTimeout
         debounced()
 
         wasActionExecuted shouldBe true
@@ -81,12 +81,11 @@ class DebouncedActionTests {
     fun `when timeout has passed greater, invocation executes action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val timeout = 20.milliseconds
-        val debounced = DebouncedAction(timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
-        clock advanceBy timeout + 1.milliseconds
+        clock advanceBy MoreThanTimeout
         debounced()
 
         wasActionExecuted shouldBe true
@@ -96,12 +95,11 @@ class DebouncedActionTests {
     fun `when timeout has not passed, invocation debounces action`() {
         var wasActionExecuted: Boolean
         val clock = MutableClock()
-        val timeout = 20.milliseconds
-        val debounced = DebouncedAction(timeout, clock) { wasActionExecuted = true }
+        val debounced = DebouncedAction(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
         wasActionExecuted = false // reset
-        clock advanceBy (timeout - 1.milliseconds)
+        clock advanceBy LessThanTimeout
         debounced()
 
         wasActionExecuted shouldBe false
@@ -112,21 +110,7 @@ class DebouncedActionTests {
     // region Post invoke, generic
 
     @Test
-    fun `after invocation, post invoke action invoked`() {
-        var wasPostInvokeCalled = false
-        val debounced = DebouncedAction(
-            timeout = 20.milliseconds,
-            postInvoke = PostInvokeActionFactory.make { wasPostInvokeCalled = true },
-            action = {},
-        )
-
-        debounced()
-
-        wasPostInvokeCalled shouldBe true
-    }
-
-    @Test
-    fun `after action was executed, post invoke action is invoked with wasExecuted=true`() {
+    fun `after action was executed, generic post invoke action is invoked with wasExecuted=true`() {
         var postInvokeParam: Boolean? = null
         val debounced = DebouncedAction(
             timeout = 20.milliseconds,
@@ -140,7 +124,7 @@ class DebouncedActionTests {
     }
 
     @Test
-    fun `after action was debounced, post invoke action is invoked with wasExecuted=false`() {
+    fun `after action was debounced, generic post invoke action is invoked with wasExecuted=false`() {
         var postInvokeParam: Boolean? = null
         val clock = MutableClock()
         val timeout = 20.milliseconds
@@ -161,6 +145,65 @@ class DebouncedActionTests {
     // endregion
 
     // region Post invoke, specific
+
+    @Test
+    fun `after action was executed, onExecuted post invoke action is invoked`() {
+        var wasOnExecutedCalled = false
+        val debounced = DebouncedAction(
+            timeout = Timeout,
+            postInvoke = PostInvokeActionFactory.make(
+                onExecuted = { wasOnExecutedCalled = true },
+                onDebounced = { fail("onDebounced must not be called") },
+            ),
+            action = {},
+        )
+
+        debounced() // we know from other tests that it would indeed execute action
+
+        wasOnExecutedCalled shouldBe true
+    }
+
+    @Test
+    fun `after action was debounced, onDebounced post invoke action is invoked`() {
+        var wasOnDebouncedCalled = false
+        val clock = MutableClock()
+        val debounced = DebouncedAction(
+            timeout = Timeout,
+            clock = clock,
+            postInvoke = PostInvokeActionFactory.make(
+                onExecuted = { /* will be called in first invocation */ },
+                onDebounced = { wasOnDebouncedCalled = true },
+            ),
+            action = {},
+        )
+
+        debounced() // first call, now timeout has started
+        clock advanceBy LessThanTimeout
+        debounced() // we know from other tests that it would indeed debounce action
+
+        wasOnDebouncedCalled shouldBe true
+    }
+
+    @Test
+    fun `after action was debounced, onDebounced post invoke action is invoked with correct timeoutTimeLeft`() {
+        var actualTimeLeft = Duration.ZERO
+        val clock = MutableClock()
+        val debounced = DebouncedAction(
+            timeout = Timeout,
+            clock = clock,
+            postInvoke = PostInvokeActionFactory.make(
+                onExecuted = { /* will be called in first invocation */ },
+                onDebounced = { left -> actualTimeLeft = left },
+            ),
+            action = {},
+        )
+
+        debounced() // first call, now timeout has started
+        clock advanceBy LessThanTimeout
+        debounced() // we know from other tests that it would indeed debounce action
+
+        actualTimeLeft shouldBe (Timeout - LessThanTimeout)
+    }
 
     // endregion
 
@@ -187,4 +230,11 @@ class DebouncedActionTests {
     }
 
     // endregion
+
+    companion object {
+        val Timeout = 10.milliseconds
+        val ExactlyTimeout = Timeout
+        val MoreThanTimeout = Timeout + 1.milliseconds
+        val LessThanTimeout = Timeout - 1.milliseconds
+    }
 }
