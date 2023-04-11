@@ -1,7 +1,7 @@
 # debounce
 Debounce your lambdas.
 
-![code snippet](https://user-images.githubusercontent.com/32337243/231154991-2804dc42-8085-4604-8a33-f523809b2119.png)
+![code snippet](https://user-images.githubusercontent.com/32337243/231155507-d95f3ed1-1f2d-429d-87e5-c6b2ffe21cfc.png)
 
 ## Table of Contents
 
