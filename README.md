@@ -1,6 +1,8 @@
 # debounce
 Debounce your lambdas.
 
+![code snippet](https://user-images.githubusercontent.com/32337243/231154991-2804dc42-8085-4604-8a33-f523809b2119.png)
+
 ## Table of Contents
 
 * [What is debouncing?](#what-is-debouncing)
