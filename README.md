@@ -39,7 +39,7 @@ Specifically, it is a process of filtering out unwanted, extraneous signals or n
 ## Examples of use
 
 Basic:
-``` kotlin
+```kotlin
 val onClick = debounced(400.milliseconds) { println("Clicked!") }
 onClick() // "Clicked!"
 onClick() // debounced
@@ -49,7 +49,7 @@ onClick() // debounced
 ```
 
 Advanced, general callback
-``` kotlin
+```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
     action = { println("Clicked!") },
@@ -63,7 +63,7 @@ onClick() // debounced, "Action was executed: false"
 ```
 
 Advanced, specific callbacks
-``` kotlin
+```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
     action = { println("Clicked!") },
