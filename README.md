@@ -36,6 +36,16 @@ Specifically, it is a process of filtering out unwanted, extraneous signals or n
 
 ## Installation
 
+Using [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html):
+```kotlin
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation("io.github.mmolosay:debounce:1.0.0")
+}
+```
+
 ## Examples of use
 
 Basic:
