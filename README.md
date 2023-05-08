@@ -46,9 +46,10 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation("io.github.mmolosay:debounce:1.0.0")
+    implementation("io.github.mmolosay:debounce:VERSION")
 }
 ```
+You can find the most recent version at the top of this file in __Maven__ badge.
 
 ## Examples of use
 
