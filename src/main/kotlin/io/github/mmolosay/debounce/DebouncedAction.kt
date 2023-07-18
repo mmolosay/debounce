@@ -22,7 +22,7 @@ package io.github.mmolosay.debounce
 interface DebouncedAction : () -> Unit {
 
     /**
-     * The result of the next invocation. Answers to the question:
+     * The result of the next invocation. Answers the question:
      * "Will this action be actually executed if I invoke it right now?".
      *
      * Returns `true` if the next invocation will execute action.
