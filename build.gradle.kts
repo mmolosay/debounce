@@ -12,7 +12,7 @@ repositories {
 }
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.6.21"
     id("org.gradle.java-library")
     id("org.gradle.maven-publish")
     id("org.gradle.signing")
