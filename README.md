@@ -1,3 +1,7 @@
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=blue&metadataUrl=https://s01.oss.sonatype.org/service/local/repo_groups/public/content/io/github/mmolosay/debounce/maven-metadata.xml&style=for-the-badge)](https://search.maven.org/artifact/io.github.mmolosay/debounce)
+[![License Apache 2.0](https://img.shields.io/github/license/mmolosay/StringAnnotations.svg?style=for-the-badge&color=orange)](https://opensource.org/licenses/Apache-2.0)
+[![kotlin](https://img.shields.io/github/languages/top/mmolosay/StringAnnotations.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
+
 # debounce
 Debounce your lambdas.
 
@@ -42,9 +46,10 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation("io.github.mmolosay:debounce:1.0.0")
+    implementation("io.github.mmolosay:debounce:VERSION")
 }
 ```
+You can find the most recent version at the top of this file in __Maven__ badge.
 
 ## Examples of use
 
