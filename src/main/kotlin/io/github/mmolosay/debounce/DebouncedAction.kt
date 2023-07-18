@@ -26,7 +26,7 @@ interface DebouncedAction : () -> Unit {
      * "Will this action be actually executed if I invoke it right now?".
      *
      * Returns `true` if the next invocation will execute action.
-     * Returns `false` if the next invocation will be debounced and action will not be executed.
+     * Returns `false` if invocation launched right now will be debounced and action will not be executed.
      */
     val isReady: Boolean
 }
