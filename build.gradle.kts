@@ -1,7 +1,7 @@
 // region Project
 
 group = "io.github.mmolosay"
-version = "1.0.0"
+version = "1.1.0"
 
 // endregion
 
@@ -27,6 +27,15 @@ dependencies {
 // endregion
 
 // region Publishing & signing
+
+/*
+ * 1. update version at the top
+ * 2. apply Gradle changes
+ * 3. ./gradlew publish
+ * 4. https://s01.oss.sonatype.org/#stagingRepositories
+ * 5. Close
+ * 6. Release
+ */
 
 publishing {
     publications {
