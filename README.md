@@ -93,6 +93,46 @@ delay(300.milliseconds) // timeout hasn't passed
 onClick() // debounced, "Action was debounced, time left: 88.81ms"
 ```
 
+Observing debouncing state
+> There is no observable provided by the library out of the box.
+> You can implement your own with the technology you're using, like [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines) or [RxJava](https://github.com/ReactiveX/RxJava).
+> Following __simplified__ example uses Kotlin Coroutines and Flows.
+
+```kotlin
+val timeout = 1.seconds
+// 1. create mutable Flow
+val isReadyFlow = MutableStateFlow(true)
+val action = debounced(
+    timeout = timeout,
+    onExecuted = { isReadyFlow.updateOnExecuted(timeout) }, // 2. update isReadyFlow
+    action = { println("Action executed!") },
+)
+
+// 3. subscribe to value updates
+yourCoroutineScope.launch {
+    isReadyFlow.collect { isReady ->
+        println("isReady is $isReady")
+    }
+}
+
+// 4. action is ready to be used
+action()
+
+/*
+ * Once action was executed, we update our Flow with false,
+ * meaning that successive calls will be debounced.
+ * After timeout used to create a debounced action has passed,
+ * we update the Flow with true, meaning that successive call will be executed.
+ */
+private fun MutableStateFlow<Boolean>.updateOnExecuted(timeout: Duration) {
+    value = false
+    GlobalScope.launch {
+        delay(timeout)
+        value = true
+    }
+}
+```
+
 ## License
 
 ```text

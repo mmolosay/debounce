@@ -1,9 +1,5 @@
 package io.github.mmolosay.debounce
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.Duration.Companion.nanoseconds
-
 /*
  * Copyright 2023 Mikhail Malasai
  *
@@ -21,50 +17,16 @@ import kotlin.time.Duration.Companion.nanoseconds
  */
 
 /**
- * Wrapper for some [action], that stands as a proxy to its invocation and debounces it.
- *
- * Original [action]'s invocation will be [debounced](https://en.wiktionary.org/wiki/debounce), if previous
- * successful invocation happened within the specified [timeout] from now.
- * It means, that attempts to invoke [action] before [timeout] had exceeded will be discarded.
- *
- * Additionally, there's a functionality of specifying [postInvoke] callback, that will be called after an attempt to
- * invoke [action].
+ * An action `() -> Unit` that may be debounced on invocation.
  */
-internal class DebouncedAction(
-    private val timeout: Duration,
-    private val now: () -> Long = { System.nanoTime() },
-    private val postInvoke: PostInvokeAction? = null,
-    private val action: () -> Unit,
-) : () -> Unit {
+interface DebouncedAction : () -> Unit {
 
-    init {
-        require(timeout.isPositive()) { "Can\'t create \'DebouncedAction\' with non-positive \'timeout\'" }
-    }
-
-    private var lastInvocationTime: Long? = null
-
-    override fun invoke() {
-        val elapsed = elapsed()
-        if (elapsed == null) { // very first invocation
-            executeAction()
-        } else {
-            val timeoutTimeLeft = timeout - elapsed
-            if (timeoutTimeLeft <= ZERO) { // elapsed >= timeout
-                executeAction()
-            } else {
-                postInvoke?.onDebounced(timeoutTimeLeft)
-            }
-        }
-    }
-
-    private fun executeAction() {
-        action()
-        lastInvocationTime = now()
-        postInvoke?.onExecuted()
-    }
-
-    private fun elapsed(): Duration? =
-        lastInvocationTime?.let {
-            (now() - it).nanoseconds
-        }
+    /**
+     * The result of the next invocation. Answers the question:
+     * "Will this action be actually executed if I invoke it right now?".
+     *
+     * Returns `true` if the next invocation will execute action.
+     * Returns `false` if invocation launched right now will be debounced and action will not be executed.
+     */
+    val isReady: Boolean
 }

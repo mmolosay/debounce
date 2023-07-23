@@ -34,8 +34,8 @@ import kotlin.time.Duration.Companion.milliseconds
 fun debounced(
     timeout: Duration = 400.milliseconds,
     action: () -> Unit,
-): () -> Unit =
-    DebouncedAction(
+): DebouncedAction =
+    DebouncedActionImpl(
         timeout = timeout,
         postInvoke = null,
         action = action,
@@ -52,8 +52,8 @@ fun debounced(
     timeout: Duration = 400.milliseconds,
     onInvoke: (Boolean) -> Unit,
     action: () -> Unit,
-): () -> Unit =
-    DebouncedAction(
+): DebouncedAction =
+    DebouncedActionImpl(
         timeout = timeout,
         postInvoke = PostInvokeActionFactory.make(onInvoke),
         action = action,
@@ -76,8 +76,8 @@ fun debounced(
     onExecuted: (() -> Unit)? = null,
     onDebounced: ((Duration) -> Unit)? = null,
     action: () -> Unit,
-): () -> Unit =
-    DebouncedAction(
+): DebouncedAction =
+    DebouncedActionImpl(
         timeout = timeout,
         postInvoke = PostInvokeActionFactory.make(onExecuted, onDebounced),
         action = action,
