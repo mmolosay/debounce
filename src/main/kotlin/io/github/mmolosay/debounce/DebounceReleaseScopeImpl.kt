@@ -1,5 +1,7 @@
 package io.github.mmolosay.debounce
 
+import kotlin.time.Duration
+
 /*
  * Copyright 2023 Mikhail Malasai
  *
@@ -17,6 +19,20 @@ package io.github.mmolosay.debounce
  */
 
 /**
- * An action `() -> Unit` that may be debounced on invocation.
+ * An internal implementation of [DebounceReleaseScope].
  */
-interface DebouncedAction : () -> Unit, DebounceState
+internal class DebounceReleaseScopeImpl(
+    private val state: DebounceStateIdentityImpl,
+) : DebounceReleaseScope {
+
+    override fun release() {
+        state.timeout = null
+        state.hasEnteredDebounce = false
+    }
+
+    override fun releaseIn(timeout: Duration) {
+        state.timeout = timeout
+        state.recordReleaseStart()
+        state.hasEnteredDebounce = false
+    }
+}

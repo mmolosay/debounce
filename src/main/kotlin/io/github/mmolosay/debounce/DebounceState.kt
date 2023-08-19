@@ -17,6 +17,16 @@ package io.github.mmolosay.debounce
  */
 
 /**
- * An action `() -> Unit` that may be debounced on invocation.
+ * A state of the associated component (or self) in terms of debouncing.
  */
-interface DebouncedAction : () -> Unit, DebounceState
+sealed interface DebounceState {
+
+    /**
+     * The result of the next invocation. Answers the question:
+     * _"Is the component ready to be used right now?"_
+     *
+     * Returns `true` if the component is ready to be used.
+     * Returns `false` if an attempt to use it right now will be debounced.
+     */
+    val isReady: Boolean
+}

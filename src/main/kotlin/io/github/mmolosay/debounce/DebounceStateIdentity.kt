@@ -17,6 +17,12 @@ package io.github.mmolosay.debounce
  */
 
 /**
- * An action `() -> Unit` that may be debounced on invocation.
+ * A [DebounceState] that is associated with a particular component that is being debounced.
  */
-interface DebouncedAction : () -> Unit, DebounceState
+sealed interface DebounceStateIdentity : DebounceState
+
+/**
+ * Creates new [DebounceStateIdentity].
+ */
+fun DebounceStateIdentity(): DebounceStateIdentity =
+    DebounceStateIdentityImpl()
