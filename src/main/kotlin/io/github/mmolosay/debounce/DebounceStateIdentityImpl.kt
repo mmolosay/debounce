@@ -1,7 +1,7 @@
 package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.TimeUtils.elapsed
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.nanoseconds
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -35,13 +35,10 @@ internal class DebounceStateIdentityImpl(
     }
 
     private fun hasTimeoutPassed(): Boolean {
-        val timeout = timeout ?: return true // no timeout means has passed
-        val elapsed = elapsed() ?: return true // never started means has passed
-        return elapsed - timeout >= Duration.ZERO
+        val timeout = timeout ?: return true // no timeout set means has passed
+        val elapsed = releaseStartTime
+            ?.let { elapsed(since = it, until = now()) }
+            ?: return true // never started means has passed
+        return elapsed >= timeout
     }
-
-    private fun elapsed(): Duration? =
-        releaseStartTime?.let {
-            (now() - it).nanoseconds
-        }
 }

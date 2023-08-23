@@ -20,7 +20,7 @@ package io.github.mmolosay.debounce
  * Executes specified [action], debouncing subsequent [debounce] calls on this [DebounceStateIdentity]
  * until released.
  *
- * [DebounceReleaseScope] must be used inside the [action] to `release` debouncing.
+ * Provided [DebounceReleaseScope] must be used inside the [action] to `release` debouncing.
  * Otherwise, subsequent calls will debounce [action] forever.
  *
  * Release should happen when the lasting work of [action] is finished.

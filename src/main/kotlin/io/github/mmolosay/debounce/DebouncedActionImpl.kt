@@ -2,7 +2,7 @@ package io.github.mmolosay.debounce
 
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.Duration.Companion.nanoseconds
+import io.github.mmolosay.debounce.TimeUtils.elapsed
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -42,7 +42,7 @@ internal class DebouncedActionImpl(
     }
 
     override val isReady: Boolean
-        get() = elapsed()?.let { it - timeout >= ZERO } ?: true
+        get() = elapsed()?.let { it >= timeout } ?: true
 
     private var lastInvocationTime: Long? = null
 
@@ -68,6 +68,6 @@ internal class DebouncedActionImpl(
 
     private fun elapsed(): Duration? =
         lastInvocationTime?.let {
-            (now() - it).nanoseconds
+            elapsed(since = it, until = now())
         }
 }
