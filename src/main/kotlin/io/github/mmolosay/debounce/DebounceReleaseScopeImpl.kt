@@ -18,9 +18,6 @@ import kotlin.time.Duration
  * limitations under the License.
  */
 
-/**
- * An internal implementation of [DebounceReleaseScope].
- */
 internal class DebounceReleaseScopeImpl(
     private val state: DebounceStateIdentityImpl,
 ) : DebounceReleaseScope {
