@@ -21,6 +21,9 @@ import kotlin.time.Duration
 /**
  * Receiver scope for [debounce] action.
  * Offers ways to release debouncing.
+ *
+ * Only __one `release` method__ can be called per scope.
+ * An attempt to release multiple times will result in [IllegalStateException].
  */
 sealed interface DebounceReleaseScope {
 

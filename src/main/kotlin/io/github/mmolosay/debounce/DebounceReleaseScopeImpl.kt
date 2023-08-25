@@ -22,14 +22,25 @@ internal class DebounceReleaseScopeImpl(
     private val state: DebounceStateIdentityImpl,
 ) : DebounceReleaseScope {
 
+    private var wasReleaseCalled = false
+
     override fun release() {
+        requireReleaseWasNotCalled()
+        wasReleaseCalled = true
         state.timeout = null
         state.hasEnteredDebounce = false
     }
 
     override fun releaseIn(timeout: Duration) {
+        requireReleaseWasNotCalled()
+        wasReleaseCalled = true
         state.timeout = timeout
         state.recordReleaseStart()
         state.hasEnteredDebounce = false
+    }
+
+    private fun requireReleaseWasNotCalled() {
+        if (!wasReleaseCalled) return
+        throw IllegalStateException("multiple release calls are not allowed")
     }
 }

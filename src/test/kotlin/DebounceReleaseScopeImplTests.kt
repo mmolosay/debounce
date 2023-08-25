@@ -1,8 +1,10 @@
 import io.github.mmolosay.debounce.DebounceReleaseScope
 import io.github.mmolosay.debounce.DebounceReleaseScopeImpl
 import io.github.mmolosay.debounce.DebounceStateIdentityImpl
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration.Companion.seconds
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -37,5 +39,23 @@ internal class DebounceReleaseScopeImplTests {
         scope.release()
 
         state.hasEnteredDebounce shouldBe false
+    }
+
+    @Test
+    fun `calling more than one release method throws exception #1`() {
+        scope.releaseIn(2.seconds)
+
+        shouldThrowAny {
+            scope.release()
+        }
+    }
+
+    @Test
+    fun `calling more than one release method throws exception #2`() {
+        scope.release()
+
+        shouldThrowAny {
+            scope.releaseIn(2.seconds)
+        }
     }
 }
