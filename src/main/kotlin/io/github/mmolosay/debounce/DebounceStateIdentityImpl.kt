@@ -22,13 +22,13 @@ import kotlin.time.Duration
  */
 
 internal class DebounceStateIdentityImpl(
-    var timeout: Duration? = null,
     private val now: InstantProducer = InstantProducerFactory.create(),
 ) : DebounceStateIdentity {
 
     override val isReady: Boolean
         get() = !hasEnteredDebounce && hasTimeoutPassed()
 
+    var timeout: Duration? = null
     var hasEnteredDebounce = false
     private var releaseStartTime: Long? = null
 
