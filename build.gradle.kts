@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    testImplementation("io.mockk:mockk:1.13.2") // more recent versions are incompatible
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")

@@ -1,7 +1,9 @@
+import io.github.mmolosay.debounce.DebounceStateIdentity
 import io.github.mmolosay.debounce.DebounceStateIdentityImpl
 import io.github.mmolosay.debounce.debounce
 import io.kotest.matchers.shouldBe
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 
@@ -23,11 +25,12 @@ import org.junit.jupiter.api.Test
 
 internal class DebounceTests {
 
-    val state = DebounceStateIdentityImpl()
+    val state: DebounceStateIdentityImpl = mockk(relaxed = true, relaxUnitFun = true)
 
     @Test
-    fun `debounce() executes action when called for the first time`() {
+    fun `debounce() executes action if state is ready`() {
         var wasActionExecuted = false
+        every { state.isReady } returns true
 
         state.debounce { wasActionExecuted = true }
 
@@ -35,27 +38,30 @@ internal class DebounceTests {
     }
 
     @Test
-    fun `debounce() does not execute action when called for subsequent times`() {
-        var actionExecutedTimes = 0
+    fun `debounce() does not execute action if state is not ready`() {
+        var wasActionExecuted = false
+        every { state.isReady } returns false
 
-        state.debounce { /* first execution */ }
-        state.debounce { actionExecutedTimes++ }
-        state.debounce { actionExecutedTimes++ }
+        state.debounce { wasActionExecuted = true }
 
-        actionExecutedTimes shouldBe 0
+        wasActionExecuted shouldBe false
     }
 
     @Test
-    fun `debounce() returns true if action was executed`() {
+    fun `debounce() returns true if state is ready`() {
+        every { state.isReady } returns true
+
         val result = state.debounce { /* executed */ }
 
         result shouldBe true
     }
 
     @Test
-    fun `debounce() returns false if action was not executed`() {
-        val result = state.debounce { /* executed */ }
+    fun `debounce() returns false if state is not ready`() {
+        every { state.isReady } returns false
 
-        result shouldBe true
+        val result = state.debounce { /* debounced */ }
+
+        result shouldBe false
     }
 }

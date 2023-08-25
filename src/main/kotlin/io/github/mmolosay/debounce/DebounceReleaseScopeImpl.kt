@@ -27,16 +27,19 @@ internal class DebounceReleaseScopeImpl(
     override fun release() {
         requireReleaseWasNotCalled()
         wasReleaseCalled = true
-        state.timeout = null
-        state.hasEnteredDebounce = false
+
+        state.setTimeout(null)
+        state.recordReleaseStart()
+        state.leaveReleaseScope()
     }
 
     override fun releaseIn(timeout: Duration) {
         requireReleaseWasNotCalled()
         wasReleaseCalled = true
-        state.timeout = timeout
+
+        state.setTimeout(timeout)
         state.recordReleaseStart()
-        state.hasEnteredDebounce = false
+        state.leaveReleaseScope()
     }
 
     private fun requireReleaseWasNotCalled() {
