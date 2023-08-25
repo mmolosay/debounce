@@ -1,13 +1,9 @@
 import io.github.mmolosay.debounce.DebounceReleaseScope
 import io.github.mmolosay.debounce.DebounceReleaseScopeImpl
-import io.github.mmolosay.debounce.DebounceStateIdentity
 import io.github.mmolosay.debounce.DebounceStateIdentityImpl
 import io.kotest.assertions.throwables.shouldThrowAny
-import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.runs
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds

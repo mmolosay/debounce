@@ -1,10 +1,8 @@
-import io.github.mmolosay.debounce.DebounceStateIdentity
 import io.github.mmolosay.debounce.DebounceStateIdentityImpl
 import io.github.mmolosay.debounce.debounce
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.jupiter.api.Test
 
 /*
