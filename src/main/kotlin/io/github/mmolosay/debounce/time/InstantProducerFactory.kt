@@ -1,7 +1,4 @@
-package io.github.mmolosay.debounce
-
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.nanoseconds
+package io.github.mmolosay.debounce.time
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -19,14 +16,17 @@ import kotlin.time.Duration.Companion.nanoseconds
  * limitations under the License.
  */
 
-internal object TimeUtils {
+/**
+ * Produces instants of "now" in a format of Epoch time in nanoseconds.
+ */
+internal fun interface InstantProducer {
+    operator fun invoke(): Long
+}
 
-    /**
-     * Calculates time amount elapsed starting from [since] moment and up to [until] moment with nanoseconds precision.
-     *
-     * @param since time in nanoseconds since which elapsed time is calculated.
-     * @param until epoch time in nanoseconds until which elapsed time is calculated.
-     */
-    fun elapsed(since: Long, until: Long): Duration =
-        (until - since).nanoseconds
+internal object InstantProducerFactory {
+
+    fun create() =
+        InstantProducer {
+            System.nanoTime()
+        }
 }

@@ -1,6 +1,8 @@
 package io.github.mmolosay.debounce
 
-import io.github.mmolosay.debounce.TimeUtils.elapsed
+import io.github.mmolosay.debounce.time.InstantProducer
+import io.github.mmolosay.debounce.time.InstantProducerFactory
+import io.github.mmolosay.debounce.time.TimeUtils.elapsed
 import kotlin.time.Duration
 
 /*
@@ -21,7 +23,7 @@ import kotlin.time.Duration
 
 internal class DebounceStateIdentityImpl(
     var timeout: Duration? = null,
-    private val now: () -> Long = { System.nanoTime() },
+    private val now: InstantProducer = InstantProducerFactory.create(),
 ) : DebounceStateIdentity {
 
     override val isReady: Boolean

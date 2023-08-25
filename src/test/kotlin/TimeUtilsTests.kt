@@ -1,4 +1,4 @@
-import io.github.mmolosay.debounce.TimeUtils.elapsed
+import io.github.mmolosay.debounce.time.TimeUtils.elapsed
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds

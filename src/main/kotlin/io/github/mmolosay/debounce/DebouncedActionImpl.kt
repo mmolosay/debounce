@@ -1,8 +1,10 @@
 package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.time.InstantProducer
+import io.github.mmolosay.debounce.time.InstantProducerFactory
+import io.github.mmolosay.debounce.time.TimeUtils.elapsed
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
-import io.github.mmolosay.debounce.TimeUtils.elapsed
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -32,7 +34,7 @@ import io.github.mmolosay.debounce.TimeUtils.elapsed
  */
 internal class DebouncedActionImpl(
     private val timeout: Duration,
-    private val now: () -> Long = { System.nanoTime() },
+    private val now: InstantProducer = InstantProducerFactory.create(),
     private val postInvoke: PostInvokeAction? = null,
     private val action: () -> Unit,
 ) : DebouncedAction {

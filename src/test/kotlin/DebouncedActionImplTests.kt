@@ -4,7 +4,6 @@ import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -24,7 +23,9 @@ import kotlin.time.Duration.Companion.milliseconds
  * limitations under the License.
  */
 
-class DebouncedActionImplTests {
+internal class DebouncedActionImplTests {
+
+    val clock = FakeInstantProducer()
 
     // region Creation
 
@@ -63,7 +64,6 @@ class DebouncedActionImplTests {
     @Test
     fun `when timeout has passed exactly, invocation executes action`() {
         var wasActionExecuted: Boolean
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
@@ -77,7 +77,6 @@ class DebouncedActionImplTests {
     @Test
     fun `when timeout has passed greater, invocation executes action`() {
         var wasActionExecuted: Boolean
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
@@ -91,7 +90,6 @@ class DebouncedActionImplTests {
     @Test
     fun `when timeout has not passed, invocation debounces action`() {
         var wasActionExecuted: Boolean
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(Timeout, clock) { wasActionExecuted = true }
 
         debounced() // first call, now timeout has started
@@ -123,7 +121,6 @@ class DebouncedActionImplTests {
     @Test
     fun `after action was debounced, generic post invoke action is invoked with wasExecuted=false`() {
         var postInvokeParam: Boolean? = null
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(
             timeout = Timeout,
             now = clock,
@@ -162,7 +159,6 @@ class DebouncedActionImplTests {
     @Test
     fun `after action was debounced, onDebounced post invoke action is invoked`() {
         var wasOnDebouncedCalled = false
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(
             timeout = Timeout,
             now = clock,
@@ -183,7 +179,6 @@ class DebouncedActionImplTests {
     @Test
     fun `after action was debounced, onDebounced post invoke action is invoked with correct timeoutTimeLeft`() {
         var actualTimeLeft = ZERO
-        val clock = FakeClock()
         val debounced = DebouncedActionImpl(
             timeout = Timeout,
             now = clock,
@@ -214,7 +209,7 @@ class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has passed exactly, isReady is true`() {
-        val clock = FakeClock()
+        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -225,7 +220,7 @@ class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has passed greater, isReady is true`() {
-        val clock = FakeClock()
+        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -236,7 +231,7 @@ class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has not passed yet, isReady is false #1`() {
-        val clock = FakeClock()
+        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -247,28 +242,13 @@ class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has not passed yet, isReady is false #2`() {
-        val clock = FakeClock()
+        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
         clock advanceBy LessThanTimeout
 
         debounced.isReady shouldBe false
-    }
-
-    // endregion
-
-    // region Utils
-
-    private class FakeClock(
-        var advancement: Duration = ZERO,
-    ) : () -> Long {
-        override fun invoke(): Long =
-            advancement.inWholeNanoseconds
-    }
-
-    private infix fun FakeClock.advanceBy(amount: Duration) {
-        advancement += amount
     }
 
     // endregion
