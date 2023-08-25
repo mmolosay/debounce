@@ -36,9 +36,8 @@ internal class DebounceStateIdentityImpl(
 
     private fun hasTimeoutPassed(): Boolean {
         val timeout = timeout ?: return true // no timeout set means has passed
-        val elapsed = releaseStartTime
-            ?.let { elapsed(since = it, until = now()) }
-            ?: return true // never started means has passed
+        val startTime = releaseStartTime ?: return true // never started means has passed
+        val elapsed = elapsed(since = startTime, until = now())
         return elapsed >= timeout
     }
 }
