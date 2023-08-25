@@ -27,7 +27,7 @@ package io.github.mmolosay.debounce
  * For instance, if [action] executes a network call, then release should be called when
  * it is done.
  *
- * @return whether the [action] was actually invoked or debounced.
+ * @return whether the [action] was actually executed (or was it debounced).
  * @see DebounceReleaseScope
  */
 fun DebounceStateIdentity.debounce(
