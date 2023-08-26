@@ -37,6 +37,8 @@ public interface DebounceReleaseScope {
     /**
      * Releases debouncing in specified [timeout].
      *
+     * If [timeout] is not positive then the method will behave as [release].
+     *
      * @throws [IllegalStateException] if any `release` method was already called.
      */
     public fun releaseIn(timeout: Duration)

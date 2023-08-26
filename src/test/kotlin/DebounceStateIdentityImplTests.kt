@@ -1,6 +1,7 @@
 import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.milliseconds
 
 /*
@@ -41,6 +42,26 @@ internal class DebounceStateIdentityImplTests {
         state.onEnterDebounce()
 
         state.onRelease(timeout = null)
+
+        state.isReady shouldBe true
+    }
+
+    @Test
+    fun `on release with negative timeout, releases instantly and state becomes ready`() {
+        state.onEnterDebounce()
+
+        state.onRelease(-Timeout)
+        // no time advancement is needed
+
+        state.isReady shouldBe true
+    }
+
+    @Test
+    fun `on release with zero timeout, releases instantly and state becomes ready`() {
+        state.onEnterDebounce()
+
+        state.onRelease(timeout = ZERO)
+        // no time advancement is needed
 
         state.isReady shouldBe true
     }

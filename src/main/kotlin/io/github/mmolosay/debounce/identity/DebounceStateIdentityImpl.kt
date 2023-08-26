@@ -25,10 +25,10 @@ internal class DebounceStateIdentityImpl(
     private val now: InstantProducer = InstantProducerFactory.create(),
 ) : DebounceStateIdentity {
 
-    override val isReady: Boolean // whether it is released or not
+    override val isReady: Boolean // whether debouncing is released or not
         get() = (wasReleaseCalled ?: true) && hasTimeoutPassed()
 
-    private var timeout: Duration? = null // exposing mutable fields makes unit testing hard
+    private var timeout: Duration? = null
     private var wasReleaseCalled: Boolean? = null
     private var releaseTimeoutStartTime: Long? = null
 
@@ -40,7 +40,7 @@ internal class DebounceStateIdentityImpl(
 
     fun onRelease(timeout: Duration?) {
         wasReleaseCalled = true
-        this.timeout = timeout
+        this.timeout = timeout?.takeIf { it.isPositive() }
         releaseTimeoutStartTime = now()
     }
 
