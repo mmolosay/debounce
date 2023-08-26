@@ -13,6 +13,7 @@ Debounce your lambdas.
 * [Problems to solve](#problems-to-solve)
 * [Reasons to use](#reasons-to-use)
 * [Installation](#installation)
+* [Migration](#migration)
 * [Examples of use](#examples-of-use)
 * [License](#license)
 
@@ -50,6 +51,11 @@ dependencies {
 }
 ```
 You can find the most recent version at the top of this file in __Maven__ badge.
+
+## Migration
+
+Some versions contain breaking changes.
+Check [releases page](https://github.com/mmolosay/debounce/releases) for migration guide.
 
 ## Examples of use
 
@@ -104,7 +110,10 @@ val timeout = 1.seconds
 val isReadyFlow = MutableStateFlow(true)
 val action = debounced(
     timeout = timeout,
-    onExecuted = { isReadyFlow.updateOnExecuted(timeout) }, // 2. update isReadyFlow
+    onExecuted = {
+        // 2. update isReadyFlow
+        yourCoroutineScope.launch { isReadyFlow.updateOnExecuted(timeout) }
+    },
     action = { println("Action executed!") },
 )
 
@@ -124,12 +133,10 @@ action()
  * After timeout used to create a debounced action has passed,
  * we update the Flow with true, meaning that successive call will be executed.
  */
-private fun MutableStateFlow<Boolean>.updateOnExecuted(timeout: Duration) {
+private suspend fun MutableStateFlow<Boolean>.updateOnExecuted(timeout: Duration) {
     value = false
-    GlobalScope.launch {
-        delay(timeout)
-        value = true
-    }
+    delay(timeout)
+    value = true
 }
 ```
 
