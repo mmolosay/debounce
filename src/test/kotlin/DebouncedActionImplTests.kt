@@ -209,7 +209,6 @@ internal class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has passed exactly, isReady is true`() {
-        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -220,7 +219,6 @@ internal class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has passed greater, isReady is true`() {
-        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -231,7 +229,6 @@ internal class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has not passed yet, isReady is false #1`() {
-        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
@@ -242,7 +239,6 @@ internal class DebouncedActionImplTests {
 
     @Test
     fun `when timeout has not passed yet, isReady is false #2`() {
-        val clock = FakeInstantProducer()
         val debounced = DebouncedActionImpl(Timeout, clock) {}
 
         debounced() // first call, now timeout has started
