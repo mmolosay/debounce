@@ -46,7 +46,7 @@ internal class DebouncedActionImpl(
     override val isReady: Boolean
         get() = elapsed()?.let { it >= timeout } ?: true
 
-    private var lastInvocationTime: Long? = null
+    private var lastActionExecutionTime: Long? = null
 
     override fun invoke() {
         val elapsed = elapsed()
@@ -64,12 +64,12 @@ internal class DebouncedActionImpl(
 
     private fun executeAction() {
         action()
-        lastInvocationTime = now()
+        lastActionExecutionTime = now()
         postInvoke?.onExecuted()
     }
 
     private fun elapsed(): Duration? =
-        lastInvocationTime?.let {
+        lastActionExecutionTime?.let {
             elapsed(since = it, until = now())
         }
 }
