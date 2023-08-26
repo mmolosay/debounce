@@ -69,8 +69,10 @@ For `DebounceStateIdentity.debounce()` it is you who decides when to start a rel
 It's a right choice for actions which perform lasting async work.
 
 > [!NOTE]
-> Q: Does your action contain lasting async work? 
+> Q: Does your action contain lasting async work?
+> 
 > A: NO → [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+> 
 > A: YES → [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
 
 For examples of use see [Examples](#examples) section.
