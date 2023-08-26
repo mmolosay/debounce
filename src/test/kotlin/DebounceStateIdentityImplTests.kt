@@ -1,9 +1,7 @@
 import io.github.mmolosay.debounce.DebounceStateIdentityImpl
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import java.sql.Time
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 /*
  * Copyright 2023 Mikhail Malasai
