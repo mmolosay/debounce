@@ -28,11 +28,11 @@ import io.github.mmolosay.debounce.release.DebounceReleaseScopeImpl
  * Provided [DebounceReleaseScope] must be used inside the [action] to `release` debouncing.
  * Otherwise, subsequent calls will debounce [action] forever.
  *
- * Release should happen when the lasting work of [action] is finished.
+ * Release should happen when an async work of [action] is finished.
  * For instance, if [action] executes a network call, then release should be called when
  * it is done.
  *
- * @return whether the [action] was actually executed (or was it debounced).
+ * @return `true` if [action] was actually executed, `false` if it was debounced.
  * @see DebounceReleaseScope
  */
 public fun DebounceStateIdentity.debounce(

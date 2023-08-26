@@ -32,6 +32,10 @@ import kotlin.time.Duration.Companion.milliseconds
  * Invoking returned lambda will execute wrapped [action] only if the specified
  * [timeout] is exceeded since the moment of last execution (if there was such).
  *
+ * Timeout starts right after execution of the [action].
+ * If there is any async work being performed inside the [action] then consider using
+ * [debounce] instead, since it allows to decide when to start a timeout.
+ *
  * This is the most basic variant of this function. See other overloads for more functionality.
  */
 public fun debounced(
