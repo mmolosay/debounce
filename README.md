@@ -104,6 +104,7 @@ fun onSignInButtonClick() {
 
 > [!IMPORTANT]
 > It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `DebounceStateIdentity()` to preserve debouncing state across recomposition.
+
 > [!NOTE]
 > You should also [`remember()`](https://developer.android.com/jetpack/compose/state) `onClick` action due to [unstable lambdas](https://multithreaded.stitchfix.com/blog/2022/08/05/jetpack-compose-recomposition/#:~:text=Gotcha%20%2D%20Unstable%20Lambdas) or use [method reference](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html).
 
