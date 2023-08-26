@@ -17,7 +17,6 @@ import kotlin.time.Duration
  * limitations under the License.
  */
 
-
 class FakeInstantProducer(
     var advancement: Duration = Duration.ZERO,
 ) : InstantProducer {
