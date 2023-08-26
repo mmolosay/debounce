@@ -13,11 +13,11 @@ Debounce your lambdas.
 * [Problems to solve](#problems-to-solve)
 * [Reasons to use](#reasons-to-use)
 * [Installation](#installation)
-* [How to use](#how-to-use)
+* [What to use](#what-to-use)
 * [Migration](#migration)
 * [Examples](#examples)
-* - [debounced()](#debounced)
 * - [DebounceStateIdentity.debounce()](#debouncestateindentitydebounce)
+* - [debounced()](#debounced)
 * [License](#license)
 
 -----
@@ -55,7 +55,7 @@ dependencies {
 ```
 You can find the most recent version at the top of this file in __Maven__ badge.
 
-## How to use
+## What to use
 The centerpieces of this library are two functions:
  - [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
  - [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
@@ -91,7 +91,7 @@ Check [releases page](https://github.com/mmolosay/debounce/releases) for migrati
 ```kotlin
 val signInButtonState = DebounceStateIdentity()
 
-fun onSignInButtonClick() {
+fun onSignInButtonClick() =
     signInButtonState.debounce {
         yourCoroutineScope.launch {
             authApi.signIn() // suspending call
@@ -99,7 +99,6 @@ fun onSignInButtonClick() {
             releaseIn(600.milliseconds) // or release() if you want release debouncing immediately
         }
     }
-}
 ```
 
 #### Inside [Jetpack Compose](https://developer.android.com/jetpack/compose)
