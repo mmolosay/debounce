@@ -13,8 +13,9 @@ Debounce your lambdas.
 * [Problems to solve](#problems-to-solve)
 * [Reasons to use](#reasons-to-use)
 * [Installation](#installation)
+* [How to use](#how-to-use)
 * [Migration](#migration)
-* [Examples of use](#examples-of-use)
+* [Examples](#examples)
 * [License](#license)
 
 -----
@@ -52,14 +53,81 @@ dependencies {
 ```
 You can find the most recent version at the top of this file in __Maven__ badge.
 
+## How to use
+The centerpieces of this library are two functions:
+ - [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+ - [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
+
+The main difference between them is the moment when debouncing timeout starts.
+
+For `debounced()` timeout starts right after an execution of the action.
+It suits for cases without any lasting async work. 
+
+For `DebounceStateIdentity.debounce()` it is you who decides when to start a release timeout.
+It's a right choice for actions which perform lasting async work.
+
+> [!NOTE]
+> Q: Does your action contain lasting async work? 
+> A: NO → [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+> A: YES → [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
+
+For examples of use see [Examples](#examples) section.
+
 ## Migration
 
 Some versions contain breaking changes.
 Check [releases page](https://github.com/mmolosay/debounce/releases) for migration guide.
 
-## Examples of use
+## Examples
 
-Basic:
+### `DebounceStateIndentity.debounce()`
+
+#### Inside View, Presenter or ViewModel
+
+```kotlin
+val signInButtonState = DebounceStateIdentity()
+
+fun onSignInButtonClick() {
+    signInButtonState.debounce {
+        yourCoroutineScope.launch {
+            authApi.signIn() // suspending call
+            navigateToMainScreen()
+            releaseIn(600.milliseconds) // or release() if you want release debouncing immediately
+        }
+    }
+}
+```
+
+#### Inside [Jetpack Compose](https://developer.android.com/jetpack/compose)
+
+> [!IMPORTANT]
+> It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `DebounceStateIdentity()` to preserve debouncing state across recomposition.
+> [!NOTE]
+> You should also [`remember()`](https://developer.android.com/jetpack/compose/state) `onClick` action due to [unstable lambdas](https://multithreaded.stitchfix.com/blog/2022/08/05/jetpack-compose-recomposition/#:~:text=Gotcha%20%2D%20Unstable%20Lambdas) or use [method reference](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html).
+
+```kotlin
+val coroutineScope = rememberCoroutineScope()
+val buttonState = remember { DebounceStateIdentity() }
+
+val onClick: () -> Unit = remember {
+    {
+        buttonState.debounce {
+            coroutineScope.launch {
+                animateUi() // suspending call
+                release()
+            }
+        }
+    }
+}
+
+Button(onClick = onClick) {
+    Text("Animate UI")
+}
+```
+
+### `debounced()`
+
+#### Basic:
 ```kotlin
 val onClick = debounced(400.milliseconds) { println("Clicked!") }
 onClick() // "Clicked!"
@@ -69,7 +137,7 @@ onClick() // "Clicked!"
 onClick() // debounced
 ```
 
-Advanced, general callback
+#### Advanced, general callback
 ```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
@@ -83,7 +151,7 @@ onClick() // "Clicked!", "Action was executed: true"
 onClick() // debounced, "Action was executed: false"
 ```
 
-Advanced, specific callbacks
+#### Advanced, specific callbacks
 ```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
@@ -99,7 +167,23 @@ delay(300.milliseconds) // timeout hasn't passed
 onClick() // debounced, "Action was debounced, time left: 88.81ms"
 ```
 
-Observing debouncing state
+#### Inside [Jetpack Compose](https://developer.android.com/jetpack/compose)
+
+> [!IMPORTANT]
+> It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `debounced()` action to preserve debouncing state across recomposition.
+
+```kotlin
+val onClick = remember {
+    debounced(2.seconds) {
+        navigator.navigateToNextScreen()
+    }
+}
+Button(onClick = onClick) {
+    Text("Go to next screen")
+}
+```
+
+#### Observing debouncing state
 > There is no observable provided by the library out of the box.
 > You can implement your own with the technology you're using, like [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines) or [RxJava](https://github.com/ReactiveX/RxJava).
 > Following __simplified__ example uses Kotlin Coroutines and Flows.
