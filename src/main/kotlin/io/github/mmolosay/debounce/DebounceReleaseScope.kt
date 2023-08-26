@@ -29,11 +29,15 @@ sealed interface DebounceReleaseScope {
 
     /**
      * Releases debouncing instantly.
+     *
+     * @throws [IllegalStateException] if any `release` method was already called.
      */
     fun release()
 
     /**
      * Releases debouncing in specified [timeout].
+     *
+     * @throws [IllegalStateException] if any `release` method was already called.
      */
     fun releaseIn(timeout: Duration)
 }
