@@ -1,5 +1,8 @@
 package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.action.DebouncedAction
+import io.github.mmolosay.debounce.action.DebouncedActionImpl
+import io.github.mmolosay.debounce.action.PostInvokeActionFactory
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -29,9 +32,13 @@ import kotlin.time.Duration.Companion.milliseconds
  * Invoking returned lambda will execute wrapped [action] only if the specified
  * [timeout] is exceeded since the moment of last execution (if there was such).
  *
+ * Timeout starts right after execution of the [action].
+ * If there is any async work being performed inside the [action] then consider using
+ * [debounce] instead, since it allows to decide when to start a timeout.
+ *
  * This is the most basic variant of this function. See other overloads for more functionality.
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     action: () -> Unit,
 ): DebouncedAction =
@@ -48,7 +55,7 @@ fun debounced(
  * It will be invoked with `true` as a parameter, if wrapped [action] was actually executed in
  * this invocation, or with `false` otherwise.
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     onInvoke: (Boolean) -> Unit,
     action: () -> Unit,
@@ -71,7 +78,7 @@ fun debounced(
  * @throws IllegalArgumentException if called without specifying at least one post invoke action
  * ([onExecuted] or [onDebounced]).
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     onExecuted: (() -> Unit)? = null,
     onDebounced: ((Duration) -> Unit)? = null,

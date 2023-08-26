@@ -1,8 +1,10 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.action
 
+import io.github.mmolosay.debounce.time.InstantProducer
+import io.github.mmolosay.debounce.time.InstantProducerFactory
+import io.github.mmolosay.debounce.time.TimeUtils.elapsed
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.ZERO
-import kotlin.time.Duration.Companion.nanoseconds
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -32,7 +34,7 @@ import kotlin.time.Duration.Companion.nanoseconds
  */
 internal class DebouncedActionImpl(
     private val timeout: Duration,
-    private val now: () -> Long = { System.nanoTime() },
+    private val now: InstantProducer = InstantProducerFactory.create(),
     private val postInvoke: PostInvokeAction? = null,
     private val action: () -> Unit,
 ) : DebouncedAction {
@@ -42,9 +44,9 @@ internal class DebouncedActionImpl(
     }
 
     override val isReady: Boolean
-        get() = elapsed()?.let { it - timeout >= ZERO } ?: true
+        get() = elapsed()?.let { it >= timeout } ?: true
 
-    private var lastInvocationTime: Long? = null
+    private var lastActionExecutionTime: Long? = null
 
     override fun invoke() {
         val elapsed = elapsed()
@@ -62,12 +64,12 @@ internal class DebouncedActionImpl(
 
     private fun executeAction() {
         action()
-        lastInvocationTime = now()
+        lastActionExecutionTime = now()
         postInvoke?.onExecuted()
     }
 
     private fun elapsed(): Duration? =
-        lastInvocationTime?.let {
-            (now() - it).nanoseconds
+        lastActionExecutionTime?.let {
+            elapsed(since = it, until = now())
         }
 }

@@ -1,4 +1,6 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.action
+
+import io.github.mmolosay.debounce.DebounceState
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -19,14 +21,4 @@ package io.github.mmolosay.debounce
 /**
  * An action `() -> Unit` that may be debounced on invocation.
  */
-interface DebouncedAction : () -> Unit {
-
-    /**
-     * The result of the next invocation. Answers the question:
-     * "Will this action be actually executed if I invoke it right now?".
-     *
-     * Returns `true` if the next invocation will execute action.
-     * Returns `false` if invocation launched right now will be debounced and action will not be executed.
-     */
-    val isReady: Boolean
-}
+public sealed interface DebouncedAction : () -> Unit, DebounceState
