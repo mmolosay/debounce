@@ -16,6 +16,8 @@ Debounce your lambdas.
 * [How to use](#how-to-use)
 * [Migration](#migration)
 * [Examples](#examples)
+* - [debounced()](#debounced)
+* - [DebounceStateIdentity.debounce()](#debouncestateindentitydebounce)
 * [License](#license)
 
 -----
