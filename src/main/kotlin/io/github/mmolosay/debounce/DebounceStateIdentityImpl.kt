@@ -26,26 +26,22 @@ internal class DebounceStateIdentityImpl(
 ) : DebounceStateIdentity {
 
     override val isReady: Boolean // whether it is released or not
-        get() = wasReleaseCalled ?: true && hasTimeoutPassed()
+        get() = (wasReleaseCalled ?: true) && hasTimeoutPassed()
 
     private var timeout: Duration? = null // exposing mutable fields makes unit testing hard
     private var wasReleaseCalled: Boolean? = null
     private var releaseTimeoutStartTime: Long? = null
 
-    fun enterReleaseScope() {
+    fun onEnterDebounce() {
         wasReleaseCalled = false
+        timeout = null
+        releaseTimeoutStartTime = null
     }
 
-    fun leaveReleaseScope() {
+    fun onRelease(timeout: Duration?) {
         wasReleaseCalled = true
-    }
-
-    fun recordReleaseStart() {
-        releaseTimeoutStartTime = now()
-    }
-
-    fun setTimeout(timeout: Duration?) {
         this.timeout = timeout
+        releaseTimeoutStartTime = now()
     }
 
     private fun hasTimeoutPassed(): Boolean {

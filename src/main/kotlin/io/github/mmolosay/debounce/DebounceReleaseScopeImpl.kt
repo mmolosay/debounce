@@ -25,24 +25,20 @@ internal class DebounceReleaseScopeImpl(
     private var wasReleaseCalled = false
 
     override fun release() {
-        requireReleaseWasNotCalled()
+        requireReleaseWasNotCalledYet()
         wasReleaseCalled = true
 
-        state.setTimeout(null)
-        state.recordReleaseStart()
-        state.leaveReleaseScope()
+        state.onRelease(timeout = null)
     }
 
     override fun releaseIn(timeout: Duration) {
-        requireReleaseWasNotCalled()
+        requireReleaseWasNotCalledYet()
         wasReleaseCalled = true
 
-        state.setTimeout(timeout)
-        state.recordReleaseStart()
-        state.leaveReleaseScope()
+        state.onRelease(timeout)
     }
 
-    private fun requireReleaseWasNotCalled() {
+    private fun requireReleaseWasNotCalledYet() {
         if (!wasReleaseCalled) return
         throw IllegalStateException("multiple release calls are not allowed")
     }

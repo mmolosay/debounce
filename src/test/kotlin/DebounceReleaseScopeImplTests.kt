@@ -32,17 +32,18 @@ internal class DebounceReleaseScopeImplTests {
     val scope: DebounceReleaseScope = DebounceReleaseScopeImpl(state)
 
     @Test
-    fun `release() method exits debounce`() {
+    fun `release() method notifies state`() {
         scope.release()
 
-        verify { state.leaveReleaseScope() }
+        verify { state.onRelease(timeout = null) }
     }
 
     @Test
     fun `releaseIn() method exits debounce`() {
-        scope.releaseIn(2.seconds)
+        val timeout = 2.seconds
+        scope.releaseIn(timeout)
 
-        verify { state.leaveReleaseScope() }
+        verify { state.onRelease(timeout = timeout) }
     }
 
     @Test

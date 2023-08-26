@@ -43,7 +43,7 @@ private fun DebounceStateIdentityImpl.debounce(
     action: DebounceReleaseScope.() -> Unit,
 ): Boolean {
     if (!isReady) return false // debounced
-    enterReleaseScope()
+    onEnterDebounce()
     DebounceReleaseScopeImpl(this).action()
     return true
 }
