@@ -1,5 +1,10 @@
 package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.identity.DebounceStateIdentity
+import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
+import io.github.mmolosay.debounce.release.DebounceReleaseScope
+import io.github.mmolosay.debounce.release.DebounceReleaseScopeImpl
+
 /*
  * Copyright 2023 Mikhail Malasai
  *

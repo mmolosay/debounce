@@ -1,5 +1,5 @@
-import io.github.mmolosay.debounce.DebouncedActionImpl
-import io.github.mmolosay.debounce.PostInvokeActionFactory
+import io.github.mmolosay.debounce.action.DebouncedActionImpl
+import io.github.mmolosay.debounce.action.PostInvokeActionFactory
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test

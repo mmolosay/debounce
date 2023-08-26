@@ -1,4 +1,4 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.release
 
 import kotlin.time.Duration
 
@@ -19,13 +19,13 @@ import kotlin.time.Duration
  */
 
 /**
- * Receiver scope for [debounce] action.
+ * Receiver scope for an action being debounced.
  * Offers ways to release debouncing.
  *
  * Only __one `release` method__ can be called per scope.
  * An attempt to release multiple times will result in [IllegalStateException].
  */
-public sealed interface DebounceReleaseScope {
+public interface DebounceReleaseScope {
 
     /**
      * Releases debouncing instantly.

@@ -1,5 +1,6 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.release
 
+import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
 import kotlin.time.Duration
 
 /*

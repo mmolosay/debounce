@@ -1,6 +1,6 @@
-import io.github.mmolosay.debounce.DebounceReleaseScope
-import io.github.mmolosay.debounce.DebounceReleaseScopeImpl
-import io.github.mmolosay.debounce.DebounceStateIdentityImpl
+import io.github.mmolosay.debounce.release.DebounceReleaseScope
+import io.github.mmolosay.debounce.release.DebounceReleaseScopeImpl
+import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.mockk.every
 import io.mockk.mockk

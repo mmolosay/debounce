@@ -1,5 +1,8 @@
 package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.action.DebouncedAction
+import io.github.mmolosay.debounce.action.DebouncedActionImpl
+import io.github.mmolosay.debounce.action.PostInvokeActionFactory
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

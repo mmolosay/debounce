@@ -1,4 +1,4 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.action
 
 import kotlin.time.Duration
 

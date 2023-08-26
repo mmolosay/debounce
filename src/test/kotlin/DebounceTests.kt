@@ -1,4 +1,4 @@
-import io.github.mmolosay.debounce.DebounceStateIdentityImpl
+import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
 import io.github.mmolosay.debounce.debounce
 import io.kotest.matchers.shouldBe
 import io.mockk.every

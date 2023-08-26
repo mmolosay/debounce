@@ -1,4 +1,4 @@
-import io.github.mmolosay.debounce.DebounceStateIdentityImpl
+import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.milliseconds

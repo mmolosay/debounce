@@ -1,4 +1,4 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.action
 
 import io.github.mmolosay.debounce.time.InstantProducer
 import io.github.mmolosay.debounce.time.InstantProducerFactory

@@ -1,4 +1,6 @@
-package io.github.mmolosay.debounce
+package io.github.mmolosay.debounce.action
+
+import io.github.mmolosay.debounce.DebounceState
 
 /*
  * Copyright 2023 Mikhail Malasai
