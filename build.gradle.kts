@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
+
 // region Project
 
 group = "io.github.mmolosay"
@@ -93,6 +95,10 @@ java {
 
     withJavadocJar()
     withSourcesJar()
+}
+
+kotlin {
+    explicitApi = ExplicitApiMode.Strict
 }
 
 tasks.test {

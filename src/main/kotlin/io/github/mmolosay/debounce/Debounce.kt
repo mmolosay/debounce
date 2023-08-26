@@ -30,7 +30,7 @@ package io.github.mmolosay.debounce
  * @return whether the [action] was actually executed (or was it debounced).
  * @see DebounceReleaseScope
  */
-fun DebounceStateIdentity.debounce(
+public fun DebounceStateIdentity.debounce(
     action: DebounceReleaseScope.() -> Unit,
 ): Boolean {
     require(this is DebounceStateIdentityImpl) { "debounce() is only allowed on DebounceReferenceImpl instances" }

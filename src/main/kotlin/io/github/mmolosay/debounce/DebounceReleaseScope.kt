@@ -25,19 +25,19 @@ import kotlin.time.Duration
  * Only __one `release` method__ can be called per scope.
  * An attempt to release multiple times will result in [IllegalStateException].
  */
-sealed interface DebounceReleaseScope {
+public sealed interface DebounceReleaseScope {
 
     /**
      * Releases debouncing instantly.
      *
      * @throws [IllegalStateException] if any `release` method was already called.
      */
-    fun release()
+    public fun release()
 
     /**
      * Releases debouncing in specified [timeout].
      *
      * @throws [IllegalStateException] if any `release` method was already called.
      */
-    fun releaseIn(timeout: Duration)
+    public fun releaseIn(timeout: Duration)
 }

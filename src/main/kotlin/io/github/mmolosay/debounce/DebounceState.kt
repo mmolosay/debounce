@@ -19,7 +19,7 @@ package io.github.mmolosay.debounce
 /**
  * A state of the associated component (or self) in terms of debouncing.
  */
-sealed interface DebounceState {
+public sealed interface DebounceState {
 
     /**
      * The result of the next invocation. Answers the question:
@@ -28,5 +28,5 @@ sealed interface DebounceState {
      * Returns `true` if the component is ready to be used.
      * Returns `false` if an attempt to use it right now will be debounced.
      */
-    val isReady: Boolean
+    public val isReady: Boolean
 }

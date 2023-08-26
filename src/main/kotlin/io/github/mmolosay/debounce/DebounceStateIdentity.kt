@@ -19,10 +19,10 @@ package io.github.mmolosay.debounce
 /**
  * A [DebounceState] that is associated with a particular component that is being debounced.
  */
-sealed interface DebounceStateIdentity : DebounceState
+public sealed interface DebounceStateIdentity : DebounceState
 
 /**
  * Creates new [DebounceStateIdentity].
  */
-fun DebounceStateIdentity(): DebounceStateIdentity =
+public fun DebounceStateIdentity(): DebounceStateIdentity =
     DebounceStateIdentityImpl()

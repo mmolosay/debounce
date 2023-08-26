@@ -31,7 +31,7 @@ import kotlin.time.Duration.Companion.milliseconds
  *
  * This is the most basic variant of this function. See other overloads for more functionality.
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     action: () -> Unit,
 ): DebouncedAction =
@@ -48,7 +48,7 @@ fun debounced(
  * It will be invoked with `true` as a parameter, if wrapped [action] was actually executed in
  * this invocation, or with `false` otherwise.
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     onInvoke: (Boolean) -> Unit,
     action: () -> Unit,
@@ -71,7 +71,7 @@ fun debounced(
  * @throws IllegalArgumentException if called without specifying at least one post invoke action
  * ([onExecuted] or [onDebounced]).
  */
-fun debounced(
+public fun debounced(
     timeout: Duration = 400.milliseconds,
     onExecuted: (() -> Unit)? = null,
     onDebounced: ((Duration) -> Unit)? = null,

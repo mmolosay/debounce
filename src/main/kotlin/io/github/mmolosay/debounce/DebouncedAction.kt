@@ -19,4 +19,4 @@ package io.github.mmolosay.debounce
 /**
  * An action `() -> Unit` that may be debounced on invocation.
  */
-interface DebouncedAction : () -> Unit, DebounceState
+public sealed interface DebouncedAction : () -> Unit, DebounceState
