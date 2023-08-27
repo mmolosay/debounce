@@ -24,7 +24,7 @@ import io.gitlab.arturbosch.detekt.api.RuleSetProvider
 
 class DebounceRuleSetProvider : RuleSetProvider {
 
-    // used in ~/config/detekt/detekt.yml
+    // used in ~/config/detekt/config.yml
     override val ruleSetId = "debounce-rules"
 
     override fun instance(config: Config): RuleSet =
