@@ -1,11 +1,14 @@
 import io.github.mmolosay.debounce.release.DebounceReleaseScope
 import io.github.mmolosay.debounce.release.DebounceReleaseScopeImpl
 import io.github.mmolosay.debounce.identity.DebounceStateIdentityImpl
+import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
 /*
@@ -61,6 +64,21 @@ internal class DebounceReleaseScopeImplTests {
 
         shouldThrowAny {
             scope.releaseIn(2.seconds)
+        }
+    }
+
+    @Test
+    fun `calling single release method per scope is OK`() {
+        shouldNotThrowAny {
+            if (Random.nextBoolean()) {
+                if (Random.nextBoolean()) {
+                    scope.release()
+                } else {
+                    scope.releaseIn(2.seconds)
+                }
+            } else {
+                scope.release()
+            }
         }
     }
 }

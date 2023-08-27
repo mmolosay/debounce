@@ -31,19 +31,15 @@ internal class DebouncedActionImplTests {
 
     @Test
     fun `creating debounced action with negative timeout throws exception`() {
-        val timeout = -Timeout
-
         shouldThrowAny {
-            DebouncedActionImpl(timeout) {}
+            DebouncedActionImpl(-Timeout) {}
         }
     }
 
     @Test
     fun `creating debounced action with zero timeout throws exception`() {
-        val timeout = ZERO
-
         shouldThrowAny {
-            DebouncedActionImpl(timeout) {}
+            DebouncedActionImpl(ZERO) {}
         }
     }
 
@@ -52,7 +48,7 @@ internal class DebouncedActionImplTests {
     // region Invocation
 
     @Test
-    fun `when debounced just created, invocation executes action`() {
+    fun `when debounced action just created, invocation executes action`() {
         var wasActionExecuted = false
         val debounced = DebouncedActionImpl(Timeout) { wasActionExecuted = true }
 
@@ -75,7 +71,7 @@ internal class DebouncedActionImplTests {
     }
 
     @Test
-    fun `when timeout has passed greater, invocation executes action`() {
+    fun `when timeout has more than passed, invocation executes action`() {
         var wasActionExecuted: Boolean
         val debounced = DebouncedActionImpl(Timeout, clock) { wasActionExecuted = true }
 
@@ -88,7 +84,7 @@ internal class DebouncedActionImplTests {
     }
 
     @Test
-    fun `when timeout has not passed, invocation debounces action`() {
+    fun `when timeout has not passed yet, invocation debounces action`() {
         var wasActionExecuted: Boolean
         val debounced = DebouncedActionImpl(Timeout, clock) { wasActionExecuted = true }
 

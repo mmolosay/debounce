@@ -16,5 +16,4 @@ rootProject.name = "debounce"
 
 include(
     "debounce",
-    "samples",
 )
