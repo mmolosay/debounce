@@ -17,7 +17,7 @@ fun onSignInButtonClick() =
     }
 ```
 
-### Inside [Jetpack Compose](https://developer.android.com/jetpack/compose)
+### With [Jetpack Compose](https://developer.android.com/jetpack/compose)
 
 > [!IMPORTANT]
 > It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `DebounceStateIdentity()` to preserve debouncing state across recomposition.
@@ -87,7 +87,7 @@ delay(300.milliseconds) // timeout hasn't passed
 onClick() // debounced, "Action was debounced, time left: 88.81ms"
 ```
 
-### Inside [Jetpack Compose](https://developer.android.com/jetpack/compose)
+### With [Jetpack Compose](https://developer.android.com/jetpack/compose)
 
 > [!IMPORTANT]
 > It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `debounced()` action to preserve debouncing state across recomposition.
