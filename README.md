@@ -55,8 +55,8 @@ You can find the most recent version at the top of this file in __Maven__ badge.
 
 ## What to use
 The centerpieces of this library are two functions:
- - [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
- - [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
+ - [`debounced()`](/debounce//src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+ - [`DebounceStateIdentity.debounce()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
 
 The main difference between them is the moment when debouncing timeout starts.
 
@@ -69,9 +69,9 @@ It's a right choice for actions which perform lasting async work.
 > [!NOTE]
 > Q: Does your action contain lasting async work?
 > 
-> A: NO → [`debounced()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+> A: NO → [`debounced()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
 > 
-> A: YES → [`DebounceStateIdentity.debounce()`](/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
+> A: YES → [`DebounceStateIdentity.debounce()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
 
 For examples of use see [Examples](#examples) section.
 
