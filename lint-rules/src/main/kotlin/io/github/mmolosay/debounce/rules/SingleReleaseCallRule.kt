@@ -38,8 +38,8 @@ class SingleReleaseCallRule(config: Config) : Rule(config) {
     override val issue = Issue(
         id = javaClass.simpleName,
         severity = Severity.Defect,
-        description = "Rule that detects multiple release calls on same DebounceReleaseScope instance",
-        debt = Debt(mins = 1),
+        description = "Multiple release calls",
+        debt = Debt.FIVE_MINS,
     )
 
     override fun visitLambdaExpression(lambdaExpression: KtLambdaExpression) {
@@ -54,8 +54,7 @@ class SingleReleaseCallRule(config: Config) : Rule(config) {
         releaseCalls
             .drop(1)
             .forEach { releaseCall ->
-                val finding = finding(releaseCall)
-                report(finding)
+                finding(releaseCall).also { report(it) }
             }
     }
 
