@@ -1,4 +1,4 @@
-# TODO: do I need this file?
+# TODO: isn't referenced from anywhere, do I need this file?
 
 debounce-rules:
   active: true
