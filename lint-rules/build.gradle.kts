@@ -10,6 +10,21 @@ dependencies {
     compileOnly("io.gitlab.arturbosch.detekt:detekt-api:$detektVersion")
 
     testImplementation("io.gitlab.arturbosch.detekt:detekt-test:$detektVersion")
+    testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 publishing {

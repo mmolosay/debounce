@@ -14,9 +14,12 @@ plugins {
     id("org.gradle.java-library")
     id("org.gradle.maven-publish")
     id("org.gradle.signing")
+    id("io.gitlab.arturbosch.detekt")
 }
 
 dependencies {
+    detektPlugins(project(":lint-rules"))
+
     testImplementation("io.mockk:mockk:1.13.2") // more recent versions are incompatible
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
@@ -95,6 +98,10 @@ java {
 
 kotlin {
     explicitApi = ExplicitApiMode.Strict
+}
+
+detekt {
+    config = files("$rootDir/config/detekt/detekt.yml")
 }
 
 tasks.test {

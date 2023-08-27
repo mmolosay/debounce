@@ -1,11 +1,10 @@
-package io.github.mmolosay.debounce.rules
+package io.github.mmolosay.debounce
 
+import io.github.mmolosay.debounce.rules.SingleReleaseCallRule
 import io.gitlab.arturbosch.detekt.api.Config
-import io.gitlab.arturbosch.detekt.api.Debt
-import io.gitlab.arturbosch.detekt.api.Issue
 import io.gitlab.arturbosch.detekt.api.Rule
-import io.gitlab.arturbosch.detekt.api.Severity
-import org.jetbrains.kotlin.psi.KtFile
+import io.gitlab.arturbosch.detekt.api.RuleSet
+import io.gitlab.arturbosch.detekt.api.RuleSetProvider
 
 /*
  * Copyright 2023 Mikhail Malasai
@@ -23,16 +22,19 @@ import org.jetbrains.kotlin.psi.KtFile
  * limitations under the License.
  */
 
-class MultipleReleaseCalls(config: Config) : Rule(config) {
+class DebounceRuleSetProvider : RuleSetProvider {
 
-    override val issue = Issue(
-        id = javaClass.simpleName,
-        severity = Severity.Defect,
-        description = "Rule for multiple release calls on same DebounceReleaseScope instance",
-        debt = Debt(mins = 1),
-    )
+    // used in ~/config/detekt/detekt.yml
+    override val ruleSetId = "debounce-rules"
 
-    override fun visitKtFile(file: KtFile) {
-        super.visitKtFile(file)
-    }
+    override fun instance(config: Config): RuleSet =
+        RuleSet(
+            id = ruleSetId,
+            rules = rules(config),
+        )
+
+    private fun rules(config: Config) =
+        listOf<Rule>(
+            SingleReleaseCallRule(config),
+        )
 }
