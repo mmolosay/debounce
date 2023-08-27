@@ -25,6 +25,9 @@ public sealed interface DebounceStateIdentity : DebounceState
 
 /**
  * Creates new [DebounceStateIdentity].
+ *
+ * Every component you intend to debounce (e.g. button) should have a unique [DebounceStateIdentity]
+ * created for it.
  */
 public fun DebounceStateIdentity(): DebounceStateIdentity =
     DebounceStateIdentityImpl()
