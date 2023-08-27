@@ -30,8 +30,8 @@ processors:
   # - 'ProjectSLOCProcessor'
   # - 'LicenseHeaderLoaderExtension'
 
-debounce-rules:
-  active: true
+#debounce-rules:
+#  active: true
 
 console-reports:
   active: false

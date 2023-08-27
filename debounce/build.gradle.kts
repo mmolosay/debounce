@@ -101,7 +101,7 @@ kotlin {
 }
 
 detekt {
-    config = files("$rootDir/config/detekt/detekt.yml")
+    config = files("$rootDir/debounce/src/main/resources/detekt.yml")
 }
 
 tasks.test {
