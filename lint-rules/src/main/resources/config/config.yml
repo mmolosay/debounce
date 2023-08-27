@@ -2,3 +2,5 @@
 
 debounce-rules:
   active: true
+  SingleReleaseCallRule:
+    active: true
