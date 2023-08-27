@@ -3,6 +3,10 @@ plugins {
 }
 
 dependencies {
+    /*
+     * You should use
+     * implementation("io.github.mmolosay:debounce:VERSION")
+     */
     implementation(project(":debounce"))
 }
 
