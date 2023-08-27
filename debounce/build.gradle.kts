@@ -1,12 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 
-// region Project
-
-group = "io.github.mmolosay"
-version = "1.2.0"
-
-// endregion
-
 // region Plugins & dependencies
 
 plugins {
@@ -14,12 +7,9 @@ plugins {
     id("org.gradle.java-library")
     id("org.gradle.maven-publish")
     id("org.gradle.signing")
-    id("io.gitlab.arturbosch.detekt")
 }
 
 dependencies {
-    detektPlugins(project(":lint-rules"))
-
     testImplementation("io.mockk:mockk:1.13.2") // more recent versions are incompatible
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
@@ -98,10 +88,6 @@ java {
 
 kotlin {
     explicitApi = ExplicitApiMode.Strict
-}
-
-detekt {
-    config = files("$rootDir/debounce/src/main/resources/detekt.yml")
 }
 
 tasks.test {

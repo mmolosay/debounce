@@ -16,6 +16,5 @@ rootProject.name = "debounce"
 
 include(
     "debounce",
-    "lint-rules",
     "samples",
 )
