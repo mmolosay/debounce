@@ -63,7 +63,7 @@ The main difference between them is the moment when debouncing timeout starts.
 For `debounced()` timeout starts right after an execution of the action.
 It suits for cases without any lasting async work. 
 
-For `DebounceStateIdentity.debounce()` it is you who decides when to start a release timeout.
+For `DebounceStateIdentity.debounce()` it is you who decide when to start a release timeout.
 It's a right choice for actions which perform lasting async work.
 
 > [!NOTE]
