@@ -17,7 +17,7 @@ package io.github.mmolosay.debounce
  */
 
 /**
- * A state of the associated component (or self) in terms of debouncing.
+ * A state of the associated component in terms of debouncing.
  */
 public interface DebounceState {
 
