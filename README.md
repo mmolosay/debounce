@@ -55,7 +55,7 @@ You can find the most recent version at the top of this file in __Maven__ badge.
 
 ## What to use
 The centerpieces of this library are two functions:
- - [`debounced()`](/debounce//src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
+ - [`debounced()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
  - [`DebounceStateIdentity.debounce()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
 
 The main difference between them is the moment when debouncing timeout starts.
