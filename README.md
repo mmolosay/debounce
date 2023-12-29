@@ -73,7 +73,7 @@ It's a right choice for actions which perform lasting async work.
 > 
 > A: YES → [`DebounceStateIdentity.debounce()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounce.kt)
 
-For examples of use see [Samples](#samples) section.
+For examples of use see [Examples](#examples) section down below.
 
 ## Migration
 
