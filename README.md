@@ -15,7 +15,7 @@ Debounce your lambdas.
 * [Installation](#installation)
 * [What to use](#what-to-use)
 * [Migration](#migration)
-* [Examples](#examples)
+* [💡Examples](#examples)
 * [License](#license)
 
 -----
@@ -80,7 +80,7 @@ For examples of use see [Examples](#examples) section down below.
 Some versions contain breaking changes.
 Check [releases page](https://github.com/mmolosay/debounce/releases) for migration guide.
 
-## Examples
+## 💡Examples
 
 Examples can be found [here](SAMPLES.md).
 
