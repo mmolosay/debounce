@@ -61,13 +61,13 @@ The centerpieces of this library are two functions:
 The main difference between them is the moment when debouncing timeout starts.
 
 For `debounced()` timeout starts right after an execution of the action.
-It suits for cases without any lasting async work. 
+It suits for cases _without_ coroutines or other indefinitely long operations. 
 
 For `DebounceStateIdentity.debounce()` it is you who decide when to start a release timeout.
-It's a right choice for actions which perform lasting async work.
+It's a right choice for actions which launch coroutines or contain other indefinitely long operations.
 
 > [!NOTE]
-> Q: Does your action contain lasting async work?
+> Q: Does your action contain coroutines or other indefinitely long operations?
 > 
 > A: NO → [`debounced()`](/debounce/src/main/kotlin/io/github/mmolosay/debounce/Debounced.kt)
 > 
