@@ -1,6 +1,6 @@
 Here are some samples of how to use library's API.
 
-## `DebounceStateIndentity.debounce()`
+# `DebounceStateIndentity.debounce()`
 
 ### Inside View, Presenter or ViewModel
 
@@ -45,7 +45,7 @@ Button(onClick = onClick) {
 }
 ```
 
-## `debounced()`
+# `debounced()`
 
 ### Basic:
 ```kotlin
