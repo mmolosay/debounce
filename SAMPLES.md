@@ -2,7 +2,7 @@ Here are some samples of how to use library's API.
 
 # `DebounceStateIndentity.debounce()`
 
-### Inside View, Presenter or ViewModel
+## Inside View, Presenter or ViewModel
 
 ```kotlin
 val signInButtonState = DebounceStateIdentity()
@@ -17,7 +17,7 @@ fun onSignInButtonClick() =
     }
 ```
 
-### With [Jetpack Compose](https://developer.android.com/jetpack/compose)
+## With [Jetpack Compose](https://developer.android.com/jetpack/compose)
 
 > [!IMPORTANT]
 > It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `DebounceStateIdentity()` to preserve debouncing state across recomposition.
@@ -47,7 +47,7 @@ Button(onClick = onClick) {
 
 # `debounced()`
 
-### Basic:
+## Basic:
 ```kotlin
 val onClick = debounced(400.milliseconds) { println("Clicked!") }
 onClick() // "Clicked!"
@@ -57,7 +57,7 @@ onClick() // "Clicked!"
 onClick() // debounced
 ```
 
-### Advanced, general callback
+## Advanced, general callback
 ```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
@@ -71,7 +71,7 @@ onClick() // "Clicked!", "Action was executed: true"
 onClick() // debounced, "Action was executed: false"
 ```
 
-### Advanced, specific callbacks
+## Advanced, specific callbacks
 ```kotlin
 val onClick = debounced(
     timeout = 400.milliseconds,
@@ -87,7 +87,7 @@ delay(300.milliseconds) // timeout hasn't passed
 onClick() // debounced, "Action was debounced, time left: 88.81ms"
 ```
 
-### With [Jetpack Compose](https://developer.android.com/jetpack/compose)
+## With [Jetpack Compose](https://developer.android.com/jetpack/compose)
 
 > [!IMPORTANT]
 > It is crucial to [`remember()`](https://developer.android.com/jetpack/compose/state) `debounced()` action to preserve debouncing state across recomposition.
@@ -103,7 +103,8 @@ Button(onClick = onClick) {
 }
 ```
 
-### Observing debouncing state
+# Observing debouncing state
+
 > There is no observable provided by the library out of the box.
 > You can implement your own with the technology you're using, like [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines) or [RxJava](https://github.com/ReactiveX/RxJava).
 > Following __simplified__ example uses Kotlin Coroutines and Flows.
